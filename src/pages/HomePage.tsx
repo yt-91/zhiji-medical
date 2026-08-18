@@ -73,6 +73,17 @@ export default function HomePage({ childIndex, onSwitchChild, onOpenReport, onGo
             )}
           </div>
           <p className="mt-3 rounded-xl bg-white/70 p-2.5 text-[12px] leading-5 text-gray-600">{risk.desc}</p>
+          {/* 身体档案 */}
+          <div className="mt-2 flex items-center gap-3 rounded-xl bg-white/70 px-2.5 py-2 text-[11px] text-gray-500">
+            <span>身高 {child.height}cm</span>
+            <span className="text-gray-200">|</span>
+            <span>体重 {child.weight}kg</span>
+            <span className="text-gray-200">|</span>
+            <span>{child.risser}</span>
+            {child.heightGainYear >= 6 && (
+              <span className="ml-auto rounded-full bg-[#FDF3E7] px-2 py-0.5 font-medium text-[#B26A00]">生长高峰</span>
+            )}
+          </div>
         </div>
         <button onClick={() => onOpenReport(latest.id)} className="flex w-full items-center justify-center gap-1 border-t border-gray-50 py-3 text-[14px] font-medium text-[#07C160]">
           查看完整报告 <ChevronRight size={16} />

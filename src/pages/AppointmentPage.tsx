@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { CalendarCheck, CheckCircle2, MapPin } from 'lucide-react'
+import { CalendarCheck, CheckCircle2, MapPin, Phone } from 'lucide-react'
 import { Card, NavBar, Page, SectionTitle } from '@/components/common'
 import { hospitals } from '@/data/mock'
 
@@ -16,18 +16,20 @@ export default function AppointmentPage({ onBack }: { onBack: () => void }) {
       <NavBar title="预约就诊" onBack={onBack} />
 
       {booked && picked ? (
-        <div className="flex flex-col items-center px-8 pt-20">
+        <div className="flex flex-col items-center px-8 pt-16">
           <CheckCircle2 size={56} color="#07C160" />
           <div className="mt-4 text-[18px] font-bold text-gray-900">预约成功</div>
           <Card className="!mx-0 mt-5 w-full">
             <div className="space-y-2.5 text-[13px] text-gray-600">
-              <div className="flex justify-between"><span className="text-gray-400">就诊人</span><span>李明轩</span></div>
+              <div className="flex justify-between"><span className="text-gray-400">就诊人</span><span>李明轩（12 岁）</span></div>
               <div className="flex justify-between"><span className="text-gray-400">医院</span><span>{hospital?.name}</span></div>
-              <div className="flex justify-between"><span className="text-gray-400">科室/医生</span><span>{hospital?.dept} · {picked.doctor}</span></div>
+              <div className="flex justify-between"><span className="text-gray-400">科室 / 医生</span><span>{hospital?.dept} · {picked.doctor}</span></div>
               <div className="flex justify-between"><span className="text-gray-400">时间</span><span>2026-{picked.date.split(' ')[0]} {picked.time}</span></div>
+              <div className="flex justify-between"><span className="text-gray-400">挂号费</span><span>{hospital?.fee.split(' · ')[0]}</span></div>
+              <div className="flex justify-between"><span className="text-gray-400">地址</span><span className="max-w-52 text-right">{hospital?.address}</span></div>
             </div>
             <p className="mt-3 rounded-xl bg-[#F6F7F9] p-3 text-[12px] leading-5 text-gray-500">
-              就诊时请携带近期筛查报告（可在"报告"页保存 PDF）。预约信息已同步至消息中心，就诊前一天将提醒您。
+              就诊须知：请携带既往筛查报告（「报告」页可保存 PDF）与 2026-04-02 的 X 光片；支具评估无需空腹；就诊前一天将收到微信提醒。
             </p>
           </Card>
           <button onClick={onBack} className="mt-5 w-full rounded-full bg-[#07C160] py-3 text-[14px] font-medium text-white">完成</button>
@@ -35,7 +37,7 @@ export default function AppointmentPage({ onBack }: { onBack: () => void }) {
       ) : !hospital ? (
         <>
           <div className="px-4 pt-4 text-[13px] text-gray-400">
-            已按当前位置排序，带「合作机构」标签的医院可互认筛查报告
+            已按当前位置排序，带「报告互认」标签的医院可直接调阅筛查档案
           </div>
           {hospitals.map((h) => (
             <Card key={h.id}>
@@ -47,7 +49,8 @@ export default function AppointmentPage({ onBack }: { onBack: () => void }) {
                   </span>
                 </div>
                 <div className="mt-1 text-[12px] text-gray-500">{h.level} · {h.dept}</div>
-                <div className="mt-2 flex gap-1.5">
+                <div className="mt-0.5 text-[11px] text-gray-400">{h.fee}</div>
+                <div className="mt-2 flex flex-wrap gap-1.5">
                   {h.tags.map((t) => (
                     <span key={t} className="rounded-full bg-[#E8F8EF] px-2 py-0.5 text-[11px] text-[#07C160]">{t}</span>
                   ))}
@@ -62,10 +65,15 @@ export default function AppointmentPage({ onBack }: { onBack: () => void }) {
             <button onClick={() => setSelected(null)} className="text-[12px] text-[#07C160]">‹ 返回医院列表</button>
             <div className="mt-2 text-[16px] font-bold text-gray-900">{hospital.name}</div>
             <div className="mt-0.5 text-[12px] text-gray-400">{hospital.level} · {hospital.dept} · {hospital.distance}</div>
+            <div className="mt-2 space-y-1 border-t border-gray-50 pt-2 text-[12px] text-gray-500">
+              <div className="flex items-center gap-1.5"><MapPin size={12} className="text-gray-300" /> {hospital.address}</div>
+              <div className="flex items-center gap-1.5"><Phone size={12} className="text-gray-300" /> {hospital.phone}</div>
+            </div>
           </Card>
           {hospital.doctors.map((d) => (
             <Card key={d.name}>
               <SectionTitle extra={<span className="text-[12px] text-gray-400">{d.title}</span>}>{d.name}</SectionTitle>
+              <p className="-mt-1 mb-1 text-[11px] text-gray-400">{d.specialty}</p>
               {d.slots.map((s) => (
                 <div key={s.date} className="mt-2">
                   <div className="text-[12px] text-gray-400">{s.date}</div>

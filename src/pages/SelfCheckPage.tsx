@@ -178,6 +178,18 @@ export default function SelfCheckPage({ onBack, onDone }: { onBack: () => void; 
             <p className="mt-3 rounded-xl bg-[#F6F7F9] p-3 text-[12px] leading-5 text-gray-600">
               与上次复查结果基本一致，侧弯趋势稳定。请继续按 3 个月周期随访，下次机构复查：2026-09-20。
             </p>
+            <div className="mt-3 grid grid-cols-3 divide-x divide-gray-100 rounded-xl bg-[#F6F7F9] py-2.5 text-center">
+              {[
+                { label: '肩高差', value: '14 mm' },
+                { label: '躯干旋转', value: '8°' },
+                { label: 'AI 置信度', value: '86%' },
+              ].map((m) => (
+                <div key={m.label} className="flex flex-col items-center">
+                  <span className="text-[14px] font-bold text-gray-900">{m.value}</span>
+                  <span className="text-[10px] text-gray-400">{m.label}</span>
+                </div>
+              ))}
+            </div>
           </Card>
           <Card className="border border-[#FA9D3B33] bg-[#FFFBF5]">
             <div className="flex gap-2.5">

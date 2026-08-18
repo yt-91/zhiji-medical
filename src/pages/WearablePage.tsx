@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { BatteryMedium, Bluetooth, BellRing, Vibrate } from 'lucide-react'
+import { BatteryMedium, Bluetooth, BellRing, Lightbulb, Vibrate } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts'
 import { Card, NavBar, Page, SectionTitle } from '@/components/common'
 import { wearable } from '@/data/mock'
@@ -15,6 +15,8 @@ export default function WearablePage({ onBack }: { onBack: () => void }) {
     { label: '不良姿势占比', value: `${wearable.badPostureRate}%` },
     { label: '步态对称性', value: `${wearable.gaitSymmetry}%` },
   ]
+
+  const totalHours = wearable.postureMix.reduce((s, p) => s + p.hours, 0)
 
   return (
     <Page>
@@ -49,6 +51,42 @@ export default function WearablePage({ onBack }: { onBack: () => void }) {
         </div>
       </Card>
 
+      {/* 今日姿态构成 */}
+      <Card>
+        <SectionTitle>今日姿态构成</SectionTitle>
+        <div className="flex h-3.5 overflow-hidden rounded-full">
+          {wearable.postureMix.map((p) => (
+            <div key={p.label} style={{ width: `${(p.hours / totalHours) * 100}%`, backgroundColor: p.color }} />
+          ))}
+        </div>
+        <div className="mt-2.5 grid grid-cols-2 gap-1.5">
+          {wearable.postureMix.map((p) => (
+            <div key={p.label} className="flex items-center gap-1.5 text-[12px] text-gray-600">
+              <span className="h-2.5 w-2.5 rounded-sm" style={{ backgroundColor: p.color }} />
+              {p.label} <span className="ml-auto font-medium text-gray-800">{p.hours}h</span>
+            </div>
+          ))}
+        </div>
+        {/* 时段对比 */}
+        <div className="mt-4 border-t border-gray-50 pt-3">
+          <div className="mb-2 text-[12px] text-gray-400">各时段不良姿势占比</div>
+          <div className="space-y-1.5">
+            {wearable.todaySegments.map((s) => (
+              <div key={s.period} className="flex items-center gap-2">
+                <span className="w-8 text-[11px] text-gray-500">{s.period}</span>
+                <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-gray-100">
+                  <div
+                    className="h-full rounded-full"
+                    style={{ width: `${s.value * 2.5}%`, backgroundColor: s.value >= 28 ? '#FA9D3B' : '#07C160' }}
+                  />
+                </div>
+                <span className={`w-9 text-right text-[11px] ${s.value >= 28 ? 'font-medium text-[#FA9D3B]' : 'text-gray-500'}`}>{s.value}%</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Card>
+
       {/* 近7天姿势趋势 */}
       <Card>
         <SectionTitle>近 7 天不良姿势占比</SectionTitle>
@@ -67,7 +105,10 @@ export default function WearablePage({ onBack }: { onBack: () => void }) {
             </BarChart>
           </ResponsiveContainer>
         </div>
-        <p className="mt-1 text-[11px] text-gray-400">* 超过 28% 标记为橙色，连续升高时建议加强康复训练</p>
+        <div className="mt-2 flex gap-2 rounded-xl bg-[#F6F7F9] p-2.5 text-[12px] leading-5 text-gray-600">
+          <Lightbulb size={15} color="#FA9D3B" className="mt-0.5 shrink-0" />
+          {wearable.insight}
+        </div>
       </Card>
 
       {/* 提醒设置 */}

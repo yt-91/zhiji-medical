@@ -1,4 +1,4 @@
-import { BookOpen, ChevronRight, Clock } from 'lucide-react'
+import { BookOpen, ChevronRight, Clock, Eye, ShieldCheck } from 'lucide-react'
 import { Card, NavBar, Page } from '@/components/common'
 import { articles } from '@/data/mock'
 
@@ -18,6 +18,7 @@ export function ArticlesPage({ onBack, onOpen }: { onBack: () => void; onOpen: (
               <div className="mt-1 flex items-center gap-2 text-[11px] text-gray-400">
                 <span className="rounded-full bg-[#F6F7F9] px-2 py-0.5">{a.category}</span>
                 <span className="flex items-center gap-0.5"><Clock size={11} /> {a.readTime}</span>
+                <span className="flex items-center gap-0.5"><Eye size={11} /> {a.reads}</span>
               </div>
             </div>
             <ChevronRight size={16} className="shrink-0 text-gray-300" />
@@ -37,10 +38,15 @@ export function ArticleDetailPage({ id, onBack }: { id: string; onBack: () => vo
       <NavBar title={a.category} onBack={onBack} />
       <Card>
         <h1 className="text-[18px] font-bold leading-7 text-gray-900">{a.title}</h1>
-        <div className="mt-2 flex items-center gap-2 text-[11px] text-gray-400">
+        <div className="mt-2 flex flex-wrap items-center gap-2 text-[11px] text-gray-400">
           <span className="rounded-full bg-[#F6F7F9] px-2 py-0.5">{a.category}</span>
-          <span>{a.readTime}</span>
-          <span>医学顾问审核</span>
+          <span>{a.publishDate}</span>
+          <span className="flex items-center gap-0.5"><Clock size={11} /> {a.readTime}</span>
+          <span className="flex items-center gap-0.5"><Eye size={11} /> {a.reads}</span>
+        </div>
+        <div className="mt-3 flex items-center gap-2 rounded-xl bg-[#F4FBF7] p-2.5 text-[11px] text-gray-500">
+          <ShieldCheck size={14} color="#07C160" className="shrink-0" />
+          <span>作者：{a.author} · 医学审核：{a.reviewer}</span>
         </div>
         <p className="mt-4 rounded-xl bg-[#F6F7F9] p-3 text-[13px] leading-6 text-gray-500">{a.summary}</p>
         <div className="mt-4 space-y-4">

@@ -15,6 +15,7 @@ export default function ComparePage({ onBack, onGoAppointment }: { onBack: () =>
     { label: '肩高差', a: `${prev.shoulderDiff} mm`, b: `${curr.shoulderDiff} mm`, diff: `+${curr.shoulderDiff - prev.shoulderDiff} mm` },
     { label: '骨盆倾斜', a: `${prev.pelvisTilt}°`, b: `${curr.pelvisTilt}°`, diff: `+${(curr.pelvisTilt - prev.pelvisTilt).toFixed(1)}°` },
     { label: '躯干旋转 ATR', a: `${prev.atr}°`, b: `${curr.atr}°`, diff: `+${curr.atr - prev.atr}°` },
+    { label: '躯干偏移', a: `${prev.trunkShift} mm`, b: `${curr.trunkShift} mm`, diff: `+${curr.trunkShift - prev.trunkShift} mm` },
   ]
 
   return (

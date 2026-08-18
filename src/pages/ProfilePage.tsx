@@ -3,11 +3,12 @@ import { Card, Page } from '@/components/common'
 import { children } from '@/data/mock'
 
 export default function ProfilePage({ childIndex, onSwitchChild }: { childIndex: number; onSwitchChild: () => void }) {
+  const child = children[childIndex]
   const groups = [
     {
       title: '家庭与授权',
       items: [
-        { icon: FileSignature, color: '#4C8DFF', label: '知情同意书', extra: '已签署 v1.2' },
+        { icon: FileSignature, color: '#4C8DFF', label: '知情同意书', extra: child.consent.split(' · ')[1] ?? '已签署' },
         { icon: ShieldCheck, color: '#07C160', label: '隐私与数据授权', extra: '' },
         { icon: Trash2, color: '#FA5151', label: '删除我的数据', extra: '' },
       ],
@@ -34,6 +35,7 @@ export default function ProfilePage({ childIndex, onSwitchChild }: { childIndex:
           <div>
             <div className="text-[16px] font-semibold text-gray-900">李女士（家长）</div>
             <div className="text-[12px] text-gray-400">微信已绑定 · 138****6677</div>
+            <div className="mt-0.5 text-[11px] text-[#07C160]">{child.org}</div>
           </div>
         </div>
       </Card>

@@ -71,6 +71,7 @@ export default function FollowupPage({ childIndex, onOpenCompare }: { childIndex
                     {h.cobb !== undefined && <span className="text-[13px] font-semibold text-gray-500">{h.cobb}°</span>}
                   </div>
                   <div className="mt-0.5 text-[12px] text-gray-400">{h.date}</div>
+                  {h.note && <div className="mt-1 rounded-lg bg-[#F6F7F9] px-2 py-1 text-[11px] leading-4.5 text-gray-500">{h.note}</div>}
                 </div>
               </div>
             )
@@ -85,6 +86,17 @@ export default function FollowupPage({ childIndex, onOpenCompare }: { childIndex
           <div className="flex gap-2"><span className="font-bold text-[#07C160]">1</span>前往学校医务室或社区卫生服务中心的一体机复查（推荐，数据自动同步）</div>
           <div className="flex gap-2"><span className="font-bold text-[#07C160]">2</span>使用筛查 APP 在家完成四视图采集复查</div>
           <div className="flex gap-2"><span className="font-bold text-[#07C160]">3</span>如已就诊，可将医院 X 光结果拍照上传，纳入随访档案</div>
+        </div>
+      </Card>
+
+      {/* 复查前注意事项 */}
+      <Card>
+        <SectionTitle>复查前注意事项</SectionTitle>
+        <div className="space-y-1.5 text-[12px] leading-5 text-gray-500">
+          <div>· 复查当天穿贴身运动内衣，避免宽松衣物遮挡背部</div>
+          <div>· 佩戴支具的孩子请携带支具，医生需同步评估佩戴贴合度</div>
+          <div>· 复查前 24 小时避免剧烈运动，以免肌肉紧张影响姿态</div>
+          <div>· 本次为支具评估后首次复查，建议预留 30 分钟</div>
         </div>
       </Card>
     </Page>
